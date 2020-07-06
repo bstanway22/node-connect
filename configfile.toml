@@ -1,0 +1,85 @@
+[input]
+name = "opcua"
+type = "opcua"
+url = "opc.tcp://opcuademo.sterfive.com:26543"
+username = ""
+password = ""
+secureConnection = false
+failoverTimeout = 5
+
+# Optional
+
+[input.OPCUA_ClientSettings]
+    keepSessionAlive = true
+    endpoint_must_exist = false
+    requestedSessionTimeout = 3600000  # timeout in ms, one hour
+
+[input.OPCUA_ClientSettings.connectionStrategy]
+     maxRetry = -1 # infinite retry attemps
+     initialDelay = 1000 # in milliseconds
+     maxDelay = 10000 # in milliseconds
+
+[input.OPCUA_ClientSubscriptionOptions]
+     requestedPublishingInterval = 0
+     requestedLifetimeCount = 100
+     requestedMaxKeepAliveCount = 10
+     maxNotificationsPerPublish = 0
+     publishingEnabled = true
+     priority = 0
+
+[output]
+     name = "influx"             # used to create local database for buffering
+     type = "influxdb"           # signifies data destination is influx
+     host = "127.0.0.1"
+     database = "nodedemo"          # influx database name
+     username = "influxdb"
+     password = ""
+     protocol = "http"
+     writeMaxPoints = 1000       # max points written to destination in one go
+     failoverTimeout = 10
+     bufferMaxSize = 10000
+     writeInterval = 1000        # read from buffer every so many ms and write to destination
+     retentionPolicy="one_year"
+
+
+# Node Measurements
+
+# String
+
+[[measurements]]
+name               = "NS3|String|Scalar_Simulation_String"
+dataType           = "string"
+collectionType     = "monitored"
+monitorResolution  = 1000    # ms
+deadbandAbsolute   = 0 		# Absolute max difference for a value not to be collected
+deadbandRelative   = 0    	# Relative max difference for a value not to be collected
+
+# Integer
+
+[[measurements]]
+name               = "NS3|String|Scalar_Simulation_Integer"
+dataType           = "string"
+collectionType     = "monitored"
+monitorResolution  = 1000    # ms
+deadbandAbsolute   = 0 		# Absolute max difference for a value not to be collected
+deadbandRelative   = 0    	# Relative max difference for a value not to be collected
+
+# boolean
+
+[[measurements]]
+name               = "NS3|String|Scalar_Simulation_Boolean"
+dataType           = "string"
+collectionType     = "monitored"
+monitorResolution  = 1000    # ms
+deadbandAbsolute   = 0 		# Absolute max difference for a value not to be collected
+deadbandRelative   = 0    	# Relative max difference for a value not to be collected
+
+# Float
+
+[[measurements]]
+name               = "NS3|String|Scalar_Simulation_Float"
+dataType           = "string"
+collectionType     = "monitored"
+monitorResolution  = 1000    # ms
+deadbandAbsolute   = 0 		# Absolute max difference for a value not to be collected
+deadbandRelative   = 0    	# Relative max difference for a value not to be collected

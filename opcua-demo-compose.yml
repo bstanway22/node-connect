@@ -1,0 +1,41 @@
+version: '3.3'
+services:
+  influxdb:
+    restart: always
+    image: influxdb:1.7
+    volumes:
+      - influx:/var/lib/influxdb:rw
+      - ./influxdb/influxdb.conf:/etc/influxdb/influxdb.conf
+      - ./influx_backup:/usr/influx_backup
+    user: influxdb
+  grafana:
+    image: grafana/grafana:latest
+    restart: always
+    volumes:
+      - grafana:/var/lib/grafana
+    expose:
+      - 3000
+    ports:
+      - "0.0.0.0:3000:3000"
+  nodeconnect:
+    image: "spirocontrol/node-connect:latest"
+    restart: always
+    volumes:
+      - "./nodeconnect:/home/node/app/configfile"
+    depends_on: [influxdb]
+
+volumes:
+  influxdb:
+    name: influx
+    driver: local
+  grafana:
+    name: grafana
+    driver: local
+  nodeconnect:
+    name: nodeconnect
+    driver: local
+
+networks:
+  default:
+    external:
+      name: mpc_net
